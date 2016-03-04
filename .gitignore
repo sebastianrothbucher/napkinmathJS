@@ -1,0 +1,4 @@
+jasmine
+*.log
+node_modules
+
