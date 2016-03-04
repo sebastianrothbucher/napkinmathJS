@@ -16,6 +16,9 @@
     <script language="JavaScript" type="text/javascript" src="napkinmath.js"></script>
   </head>
   <body>
-    <textarea id="t" onkeypress="napkinHandler()"></textarea>
+    <textarea onkeypress="napkinHandler(this)"></textarea>
+    <p>
+      <input size="30" onkeypress="napkinHandlerNoRange(this)" />
+    </p>
   </body>
 </html>

@@ -11,11 +11,13 @@
    License for the specific language governing permissions and limitations under
    the License. 
 */
-var napkinHandler=function(){
+var napkinHandler=function(t){
   // to reliably get a selection, process all events first
-  setTimeout(napkinHandlerImpl);
+  setTimeout(function(){
+    napkinHandlerImpl(t);
+  });
 };
-var napkinHandlerImpl=function(){
+var napkinHandlerImpl=function(t){
   if(t.selectionStart!=t.selectionEnd){
     // we don't care about actual selection, just typing
     console.log("ignore range sel");
@@ -45,6 +47,31 @@ var napkinHandlerImpl=function(){
   t.value=newValue;
   t.selectionStart=cursorPos+(""+res).length;
   t.selectionEnd=cursorPos+(""+res).length;
+};
+var napkinHandlerNoRange=function(t){
+  // to reliably get a selection, process all events first
+  setTimeout(function(){
+    napkinHandlerNoRangeImpl(t);
+  });
+};
+var napkinHandlerNoRangeImpl=function(t){
+  if(t.value.length<2){
+    // too little for anything
+    console.log("too little for anything");
+    return;
+  }
+  var m=t.value.match(/([^ ]*)=$/);
+  if(!m){
+    // - otherwise: not
+    console.log("Not after formula=");
+    return;
+  }
+  // hey: we can try actually!
+  var formula=m[1];
+  console.log("Giving it a shot 4 '"+formula+"'");
+  var res=solveTerm(formula);
+  console.log("Yeah! - we have '"+res+"', insert it.");
+  t.value=t.value+res;
 };
 /* ----- parse the term -----
    ex: 
